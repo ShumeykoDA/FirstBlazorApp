@@ -1,0 +1,67 @@
+@page "/products"
+@using FirstBlazorApp.Models;
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Product</th>
+            <th>Stock</th>
+            <th>Actions</th>
+            <th>Price (&#8381;)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{int idx = 0;}
+        @foreach (Product product in Products)
+        {
+            idx++;
+            <tr @onmouseover="@(e => FocusProduct(@product))" @onmouseout="@(e => UnfocusProduct())">
+                <td>@idx</td>
+                <td>@product.Name</td>
+                <td>@product.Stock&nbsp;@if(@product.Unit != ""){<span>@product.Unit</span>}</td>
+                <td>
+                    @if(FocusedProduct == product) {
+                        <button class="btn btn-primary btn-sm" @onclick="@(e => AddToStock(@product))">+</button>
+                        <button class="btn btn-primary btn-sm" @onclick="@(e => RemoveFromStock(@product))">-</button>
+                    }
+                </td>
+                <td>@product.Price &#8381;</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+
+    private List<Product> Products = new List<Product>() {
+        new Product(Guid.NewGuid(), "Apple", 55.23m, 30m),
+        new Product(Guid.NewGuid(), "Banana", 93.00m, 25.5m),
+        new Product(Guid.NewGuid(), "Pear", 33.23m, 50.1m),
+        new Product(Guid.NewGuid(), "Cherry", 88.32m, 10.00m)
+    };
+
+    private Product? FocusedProduct;
+
+    private void AddToStock(Product product) {
+        product.Stock++;
+    }
+
+    private void RemoveFromStock(Product product) {
+        if (product.Stock > 1) {
+            product.Stock--;
+        } else {
+            product.Stock = 0;
+        }
+    }
+
+    private void FocusProduct(Product product) {
+        if (FocusedProduct != product) {
+            FocusedProduct = product;
+        }
+    }
+
+    private void UnfocusProduct() {
+        FocusedProduct = null;
+    }
+}
