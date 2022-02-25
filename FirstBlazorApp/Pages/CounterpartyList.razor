@@ -48,7 +48,7 @@
 </RadzenDataGrid>
 @code {
 
-    private RadzenDataGrid<Counterparty> _dataGrid;
+    private RadzenDataGrid<Counterparty>? _dataGrid;
     private Counterparty? _focusedRow = null;
     
     private List<Counterparty> counterparties = new List<Counterparty>()
@@ -77,17 +77,23 @@
     
     async Task EditRow(Counterparty counterparty)
     {
-        await _dataGrid.EditRow(counterparty);
+        if (_dataGrid != null)
+        {
+            await _dataGrid.EditRow(counterparty);
+        }
     }
     
     async Task SaveRow(Counterparty counterparty)
     {
-        await _dataGrid.UpdateRow(counterparty);
+        if (_dataGrid != null)
+        {
+            await _dataGrid.UpdateRow(counterparty);
+        }
     }
 
     void CancelEdit(Counterparty counterparty)
     {
-        _dataGrid.CancelEditRow(counterparty);
+        _dataGrid?.CancelEditRow(counterparty);
     }
     
     private async void DeleteProduct(Counterparty counterparty)
@@ -100,7 +106,10 @@
         if (confirm)
         {
             counterparties.Remove(counterparty);
-            await _dataGrid.Reload();
+            if (_dataGrid != null)
+            {
+                await _dataGrid.Reload();
+            }
         }
     }
 
