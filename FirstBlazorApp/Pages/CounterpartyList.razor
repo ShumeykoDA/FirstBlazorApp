@@ -1,0 +1,107 @@
+﻿@page "/counterparties"
+@using FirstBlazorApp.Models
+@inject DialogService _dialogService
+
+<RadzenDataGrid TItem="Counterparty" Data="@counterparties" @ref="_dataGrid" RowSelect="(cp) => _focusedRow = cp ">
+    <Columns>
+        <RadzenDataGridColumn TItem="Counterparty" Property="Name" Title="Name" TextAlign="TextAlign.Left">
+            <EditTemplate Context="counterparty">
+                <RadzenTextBox @bind-Value="counterparty.Name" Style="width:100%; display: block" Name="Name" />
+                <RadzenRequiredValidator Text="Company name is required" Component="Name" Popup="true" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Counterparty" Property="Phone" Title="Phone">
+            <EditTemplate Context="counterparty">
+                <RadzenTextBox @bind-Value="counterparty.Phone" Style="width:100%; display: block" Name="Phone" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Counterparty" Property="Email" Title="Email">
+            <EditTemplate Context="counterparty">
+                <RadzenTextBox @bind-Value="counterparty.Email" Style="width:100%; display: block" Name="Email" />
+                <RadzenEmailValidator Text="Email invalid format" Component="Email" Popup="true" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Counterparty" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="120px">
+            <Template Context="counterparty">
+                @if (_focusedRow == counterparty)
+                {
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Class="m-1"
+                        Click="@(args => EditRow(counterparty))"
+                        @onclick:stopPropagation="true"
+                    ></RadzenButton>
+                    <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" class="m-1"
+                        Click="@(args => DeleteProduct(counterparty))"
+                        @onclick:stopPropagation="true"
+                    ></RadzenButton>
+                }
+            </Template>
+            <EditTemplate Context="counterparty">
+                <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" 
+                    Click="@((args) => SaveRow(counterparty))"
+                ></RadzenButton>
+                <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" Class="m-1" 
+                    Click="@((args) => CancelEdit(counterparty))"
+                ></RadzenButton>
+            </EditTemplate>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+@code {
+
+    private RadzenDataGrid<Counterparty> _dataGrid;
+    private Counterparty? _focusedRow = null;
+    
+    private List<Counterparty> counterparties = new List<Counterparty>()
+    {
+        new Counterparty(Guid.NewGuid(), "Rush&Co")
+        {
+            Email = "nisl.arcu.iaculis@protonmail.net",
+            Phone = "1-151-305-2108" 
+        },
+        new Counterparty(Guid.NewGuid(), "Imani Lester")
+        {
+            Email = "et.magnis@outlook.couk",
+            Phone = "(471) 934-8031"
+        },
+        new Counterparty(Guid.NewGuid(), "IBridgeCom")
+        {
+            Email = "orci.ut.sagittis@icloud.ca",
+            Phone = "1-704-361-6172"
+        },
+        new Counterparty(Guid.NewGuid(), "QUIS")
+        {
+            Email = "quis@outlook.couk",
+            Phone = "(698) 745-1614"
+        }
+    };
+    
+    async Task EditRow(Counterparty counterparty)
+    {
+        await _dataGrid.EditRow(counterparty);
+    }
+    
+    async Task SaveRow(Counterparty counterparty)
+    {
+        await _dataGrid.UpdateRow(counterparty);
+    }
+
+    void CancelEdit(Counterparty counterparty)
+    {
+        _dataGrid.CancelEditRow(counterparty);
+    }
+    
+    private async void DeleteProduct(Counterparty counterparty)
+    {
+        bool confirm = await _dialogService.Confirm(
+            "Do you wish to delete selected item?", 
+            "Confirm delete", 
+            new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" }
+        ) ?? default;
+        if (confirm)
+        {
+            counterparties.Remove(counterparty);
+            await _dataGrid.Reload();
+        }
+    }
+
+}
