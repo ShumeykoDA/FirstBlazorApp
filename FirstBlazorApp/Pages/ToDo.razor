@@ -1,5 +1,7 @@
 ﻿@page "/todo"
 @using FirstBlazorApp.Models;
+@using FirstBlazorApp.Services
+@inject DateTimeService _dateTimeService;
 
 <ul>
     @foreach(ToDoItem todo in _todos){
@@ -7,14 +9,14 @@
             <span>@todo.Text</span>
             @if (@todo.DueTime != null)
             {
-                <span> ( due: @todo.DueTime )</span>
+                <span> ( due: @_dateTimeService.DateTimeToString(@todo.DueTime))</span>
             }
         </li>
     }
 </ul>
 
-<!--<input @bind="_newToDo" placeholder="What do you need to do?" />-->
-<!--<input @bind="_dueDate" placeholder="Due Date" />-->
+@*<input @bind="_newToDo" @bind:event="oninput" placeholder="What do you need to do?" />
+<input @bind="_dueDate" placeholder="Due Date" />*@
 <RadzenTextBox @bind-Value="_newToDo" Placeholder="What do you need to do?"></RadzenTextBox>
 <RadzenDatePicker TValue="DateTime?" @bind-Value="_dueDate" DateFormat="yyyy-MM-dd" ShowTime="false"
     Placeholder="Due Date"

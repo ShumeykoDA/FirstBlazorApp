@@ -1,21 +1,27 @@
 @page "/counter"
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@using Fluxor
+@using FirstBlazorApp.Store
+@using FirstBlazorApp.Store.Actions
 @inject DialogService _dialogService
+@inject IState<CounterState> _counterState
+@inject IDispatcher _dispatcher
 
 <PageTitle>Counter</PageTitle>
 
 <h1>Counter</h1>
 
-<p role="status">Current count: @currentCount</p>
+<p role="status">Current count: @CurrentCount</p>
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me4</button>
 <RadzenButton text="Click me" Click="Confirm"></RadzenButton>
 
 @code {
-    private int currentCount = 0;
+    private int CurrentCount => _counterState.Value.Count;
 
     private void IncrementCount()
     {
-        currentCount++;
+        _dispatcher.Dispatch(new AddCounter());
     }
 
     private void Confirm()
