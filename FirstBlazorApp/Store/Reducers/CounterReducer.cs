@@ -10,7 +10,7 @@ public static class CounterReducer
     {
         return state with
         {
-            Count = state.Count + 1
+            Count = state.Count + ((action.Payload != 0) ? action.Payload : 1) 
         };
     }
 }

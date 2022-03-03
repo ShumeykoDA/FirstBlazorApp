@@ -1,3 +1,3 @@
 ﻿namespace FirstBlazorApp.Store.Actions;
 
-public record AddCounter {}
+public record AddCounter(int Payload);
