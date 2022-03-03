@@ -6,22 +6,40 @@
 @inject DialogService _dialogService
 @inject IState<CounterState> _counterState
 @inject IDispatcher _dispatcher
+@inject NavigationManager _navigationManager
 
 <PageTitle>Counter</PageTitle>
 
 <h1>Counter</h1>
 
 <p role="status">Current count: @CurrentCount</p>
+<p role="status">Alt Counter: @AltCounter</p>
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me4</button>
 <RadzenButton text="Click me" Click="Confirm"></RadzenButton>
 
 @code {
     private int CurrentCount => _counterState.Value.Count;
+    
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "alt_counter")]
+    public int AltCounter { get; set; }
+
+    private void UpdateUri()
+    {
+        _navigationManager.NavigateTo(_navigationManager.GetUriWithQueryParameters(
+            new Dictionary<string, object?>()
+            {
+                ["alt_counter"] = AltCounter
+            }
+        ));
+    }
 
     private void IncrementCount()
     {
+        AltCounter = AltCounter + 1;
         _dispatcher.Dispatch(new AddCounter());
+        UpdateUri();
     }
 
     private void Confirm()

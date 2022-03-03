@@ -3,7 +3,7 @@
 @using FirstBlazorApp.Services
 @inject WeatherForecastService _forecastService
 
-<PageTitle>Weather forecast</PageTitle>
+<PageTitle>Weather forecast1</PageTitle>
 
 <h1>Weather forecast</h1>
 
@@ -17,6 +17,10 @@
 }
 else
 {
+    @if (tmpVar != null)
+    {
+        <div>tmpVar: "@tmpVar"</div>
+    }
     <table class="table">
         <thead>
         <tr>
@@ -42,6 +46,10 @@ else
 
 @code {
     private IEnumerable<WeatherForecast> _forecasts = new List<WeatherForecast>();
+    
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "tmpVar")]
+    public string tmpVar { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
