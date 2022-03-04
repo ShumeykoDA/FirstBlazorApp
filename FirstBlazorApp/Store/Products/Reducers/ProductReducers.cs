@@ -1,9 +1,10 @@
 ﻿using FirstBlazorApp.Models;
 using FirstBlazorApp.Store.Actions;
-using FirstBlazorApp.Store.States;
+using FirstBlazorApp.Store.Products.Actions;
+using FirstBlazorApp.Store.Products.States;
 using Fluxor;
 
-namespace FirstBlazorApp.Store.Reducers;
+namespace FirstBlazorApp.Store.Products.Reducers;
 
 public static class ProductReducers
 {
@@ -13,6 +14,7 @@ public static class ProductReducers
         return state with
         {
             Creating = true,
+            Ids = new List<Guid>(state.Entities.Keys) { action.Payload.Id },
             Entities = new Dictionary<Guid, Product>(state.Entities) { {action.Payload.Id, action.Payload} }
         };
     }

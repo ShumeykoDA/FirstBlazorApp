@@ -15,4 +15,8 @@
         <PackageReference Include="Radzen.Blazor" Version="3.16.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Store\Counter\Effects" />
+    </ItemGroup>
+
 </Project>

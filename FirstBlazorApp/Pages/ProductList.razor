@@ -1,5 +1,14 @@
 @page "/products"
 @using FirstBlazorApp.Models;
+@using FirstBlazorApp.Store.Actions
+@using FirstBlazorApp.Store.Products.Actions
+@using FirstBlazorApp.Store.Products.States
+@using FirstBlazorApp.Store.States
+@using Fluxor
+@inject IDispatcher _dispatcher
+@inject IState<ProductState> _productState
+
+<button class="btn btn-primary" @onclick="CreateRandomProductButton">Create Random Product</button>
 
 <table class="table">
     <thead>
@@ -34,14 +43,24 @@
 
 @code {
 
-    private List<Product> Products = new List<Product>() {
-        new Product(Guid.NewGuid(), "Apple", 55.23m, 30m),
-        new Product(Guid.NewGuid(), "Banana", 93.00m, 25.5m),
-        new Product(Guid.NewGuid(), "Pear", 33.23m, 50.1m),
-        new Product(Guid.NewGuid(), "Cherry", 88.32m, 10.00m)
-    };
+    private List<Product> Products => _productState.Value.Ids
+        .Select(id => _productState.Value.Entities[id])
+        .ToList();
 
     private Product? FocusedProduct;
+    
+    private List<string> _fruitNames = new List<string>()
+    {
+        "apple", "apricot", "avocado", "banana", "bell pepper", "bilberry", "blackberry", "blackcurrant", "blood orange",
+        "blueberry", "boysenberry", "breadfruit", "canary melon", "cantaloupe", "cherimoya", "cherry", "chili pepper",
+        "clementine", "cloudberry", "coconut", "cranberry", "cucumber", "currant", "damson", "date", "dragonfruit",
+        "durian", "eggplant", "elderberry", "feijoa", "fig", "goji berry", "gooseberry", "grape", "grapefruit", "guava",
+        "honeydew", "huckleberry", "jackfruit", "jambul", "jujube", "kiwi fruit", "kumquat", "lemon", "lime", "loquat",
+        "lychee", "mandarine", "mango", "mulberry", "nectarine", "nut", "olive", "orange", "papaya", "passionfruit",
+        "peach", "pear", "persimmon", "physalis", "pineapple", "plum", "pomegranate", "pomelo", "purple mangosteen",
+        "quince", "raisin", "rambutan", "raspberry", "redcurrant", "rock melon", "salal berry", "satsuma", "star fruit",
+        "strawberry", "tamarillo", "tangerine", "tomato", "ugli fruit", "watermelon"
+    };
 
     private void AddToStock(Product product) {
         product.Stock++;
@@ -63,5 +82,16 @@
 
     private void UnfocusProduct() {
         FocusedProduct = null;
+    }
+
+    private void CreateRandomProductButton(EventArgs eventArgs)
+    {
+        Product product = new Product(
+            Guid.NewGuid(),
+            _fruitNames[new Random().Next(0, _fruitNames.Count - 1)],
+            (decimal) (new Random().Next(1, 100) / 10),
+            (decimal) (new Random().Next(1, 100) / 10)
+        );
+        _dispatcher.Dispatch(new CreateProduct(product));
     }
 }

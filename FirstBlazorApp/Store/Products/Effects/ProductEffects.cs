@@ -1,7 +1,8 @@
 ﻿using FirstBlazorApp.Store.Actions;
+using FirstBlazorApp.Store.Products.Actions;
 using Fluxor;
 
-namespace FirstBlazorApp.Store.Effects;
+namespace FirstBlazorApp.Store.Products.Effects;
 
 public class ProductEffects
 {

@@ -1,8 +1,9 @@
 ﻿using FirstBlazorApp.Models;
 using FirstBlazorApp.Store.Interfaces;
+using FirstBlazorApp.Store.States;
 using Fluxor;
 
-namespace FirstBlazorApp.Store.States;
+namespace FirstBlazorApp.Store.Products.States;
 
 public record ProductState: EntityState<Guid, Product>, ICrudState
 {
@@ -10,7 +11,7 @@ public record ProductState: EntityState<Guid, Product>, ICrudState
     public bool Updating { get; init; }
     public bool Loading { get; init; }
     public bool Deleting { get; init; }
-    protected override Guid GetKey(Product entity) { return entity.Id; }
+    protected override Guid GetKey(Product entity) => entity.Id; 
 
     public ProductState(IDictionary<Guid, Product> entities) : base(entities)
     {
