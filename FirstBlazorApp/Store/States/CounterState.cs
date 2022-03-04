@@ -1,4 +1,5 @@
-﻿using Fluxor;
+﻿using FirstBlazorApp.Models;
+using Fluxor;
 
 namespace FirstBlazorApp.Store;
 
@@ -15,7 +16,7 @@ public class CounterFeatureState: Feature<CounterState>
     {
         return new CounterState()
         {
-            Count = 0
+            Count = 0,
         };
     }
 }

@@ -68,7 +68,7 @@
 
     private void CreateFruit()
     {
-        _dispatcher.Dispatch(new CreateFruit(new Fruit(
+        _dispatcher.Dispatch(new AddFruit(new Fruit(
             Guid.NewGuid(), 
             _fruitNames[new Random().Next(0, _fruitNames.Count - 1)]
         )));
@@ -76,14 +76,12 @@
 
     private void AddProduct()
     {
-        _dispatcher.Dispatch(new AddProduct()
-        {
-            Payload = new Product(
-                Guid.NewGuid(), 
-                _fruitNames[new Random().Next(0, _fruitNames.Count - 1)], 
-                (decimal) new Random().Next(0, 100) / 10
-            )
-        });
+        Product product = new Product(
+            Guid.NewGuid(),
+            _fruitNames[new Random().Next(0, _fruitNames.Count - 1)],
+            (decimal) new Random().Next(0, 100) / 10
+        );
+        _dispatcher.Dispatch(new AddProduct(product));
     }
 
 }

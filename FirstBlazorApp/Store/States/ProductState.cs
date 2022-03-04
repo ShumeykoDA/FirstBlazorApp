@@ -5,7 +5,7 @@ namespace FirstBlazorApp.Store;
 
 public record ProductState
 {
-    public Product Product { get; init; }
+    public IEnumerable<Product> Entities { get; init; }
     
 }
 
@@ -17,7 +17,7 @@ public class ProductFeatureState : Feature<ProductState>
     {
         return new ProductState()
         {
-            Product = null
+            Entities = new List<Product>()
         };
     }
 }

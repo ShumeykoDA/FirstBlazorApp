@@ -7,7 +7,7 @@ namespace FirstBlazorApp.Store.Reducers;
 public static class FruitReducers
 {
     [ReducerMethod]
-    public static FruitState CreateFruitReducer(FruitState state, CreateFruit action)
+    public static FruitState AddFruitReducer(FruitState state, AddFruit action)
     {
         return state with
         {

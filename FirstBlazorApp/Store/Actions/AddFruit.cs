@@ -2,4 +2,4 @@
 
 namespace FirstBlazorApp.Store.Actions;
 
-public record CreateFruit(Fruit Payload);
+public record AddFruit(Fruit Payload);
