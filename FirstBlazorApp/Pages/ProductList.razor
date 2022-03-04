@@ -8,7 +8,13 @@
 @inject IDispatcher _dispatcher
 @inject IState<ProductState> _productState
 
-<button class="btn btn-primary" @onclick="CreateRandomProductButton">Create Random Product</button>
+<button
+    disabled="@_creating"
+    class="btn btn-primary"
+    @onclick="CreateRandomProductButton"
+>
+    Create Random Product
+</button>
 
 <table class="table">
     <thead>
@@ -46,6 +52,8 @@
     private List<Product> Products => _productState.Value.Ids
         .Select(id => _productState.Value.Entities[id])
         .ToList();
+
+    private bool _creating => _productState.Value.Creating;
 
     private Product? FocusedProduct;
     

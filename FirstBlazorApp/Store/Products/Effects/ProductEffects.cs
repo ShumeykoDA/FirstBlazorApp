@@ -7,10 +7,10 @@ namespace FirstBlazorApp.Store.Products.Effects;
 public class ProductEffects
 {
     [EffectMethod(typeof(CreateProduct))]
-    public static Task? WhenCreateProduct(IDispatcher dispatcher)
+    public async Task WhenCreateProduct(IDispatcher dispatcher)
     {
+        await Task.Delay(800);
         dispatcher.Dispatch(new CreateProductSuccess());
-        return null;
     }
 
 }
