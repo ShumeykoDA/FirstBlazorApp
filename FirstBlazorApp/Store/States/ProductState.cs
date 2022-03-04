@@ -1,12 +1,24 @@
 ﻿using FirstBlazorApp.Models;
+using FirstBlazorApp.Store.Interfaces;
 using Fluxor;
 
-namespace FirstBlazorApp.Store;
+namespace FirstBlazorApp.Store.States;
 
-public record ProductState
+public record ProductState: EntityState<Guid, Product>, ICrudState
 {
-    public IEnumerable<Product> Entities { get; init; }
-    
+    public bool Creating { get; init; }
+    public bool Updating { get; init; }
+    public bool Loading { get; init; }
+    public bool Deleting { get; init; }
+    protected override Guid GetKey(Product entity) { return entity.Id; }
+
+    public ProductState(IDictionary<Guid, Product> entities) : base(entities)
+    {
+    }
+
+    public ProductState(IEnumerable<Product> collection) : base(collection)
+    {
+    }
 }
 
 public class ProductFeatureState : Feature<ProductState>
@@ -15,9 +27,6 @@ public class ProductFeatureState : Feature<ProductState>
 
     protected override ProductState GetInitialState()
     {
-        return new ProductState()
-        {
-            Entities = new List<Product>()
-        };
+        return new ProductState(new Dictionary<Guid, Product>());
     }
 }

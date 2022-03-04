@@ -4,6 +4,7 @@
 @using FirstBlazorApp.Store
 @using FirstBlazorApp.Store.Actions
 @using FirstBlazorApp.Models
+@using FirstBlazorApp.Store.States
 @inject DialogService _dialogService
 @inject IState<CounterState> _counterState
 @inject IState<FruitState> _fruitState
@@ -108,7 +109,7 @@ else
             _fruitNames[new Random().Next(0, _fruitNames.Count - 1)],
             (decimal) new Random().Next(0, 100) / 10
         );
-        _dispatcher.Dispatch(new AddProduct(product));
+        _dispatcher.Dispatch(new CreateProduct(product));
     }
 
 }

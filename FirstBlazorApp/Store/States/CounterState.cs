@@ -1,7 +1,6 @@
-﻿using FirstBlazorApp.Models;
-using Fluxor;
+﻿using Fluxor;
 
-namespace FirstBlazorApp.Store;
+namespace FirstBlazorApp.Store.States;
 
 public record CounterState
 {

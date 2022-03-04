@@ -1,11 +1,10 @@
 ﻿using FirstBlazorApp.Models;
 using FirstBlazorApp.Store.Interfaces;
-using FirstBlazorApp.Store.States;
 using Fluxor;
 
-namespace FirstBlazorApp.Store;
+namespace FirstBlazorApp.Store.States;
 
-public record FruitState: EntityState<Guid, Fruit>, ICrudEntity
+public record FruitState: EntityState<Guid, Fruit>, ICrudState
 {
     public bool Creating { get; init; }
     public bool Updating { get; init; }

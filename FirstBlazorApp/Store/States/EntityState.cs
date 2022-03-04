@@ -1,4 +1,5 @@
 ﻿
+using FirstBlazorApp.Store.Interfaces;
 using Fluxor;
 
 namespace FirstBlazorApp.Store.States;
@@ -23,9 +24,4 @@ public abstract record EntityState<TKey, TEntity> where TKey : notnull
         Ids = enumerable.Select(GetKey);
         Entities = enumerable.ToDictionary(GetKey);
     }
-}
-
-public abstract class EntityFeatureState<TKey, TEntity> : Feature<EntityState<TKey, TEntity>> where TKey : notnull
-{
-
 }

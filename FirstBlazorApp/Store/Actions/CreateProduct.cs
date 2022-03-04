@@ -2,4 +2,4 @@
 
 namespace FirstBlazorApp.Store.Actions;
 
-public record AddProduct(Product Payload);
+public record CreateProduct(Product Payload);

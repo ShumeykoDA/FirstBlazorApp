@@ -1,6 +1,6 @@
 ﻿namespace FirstBlazorApp.Store.Interfaces;
 
-public interface ICrudEntity
+public interface ICrudState
 {
     bool Creating { get; init; }
     bool Updating { get; init; }
