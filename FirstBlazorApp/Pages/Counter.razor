@@ -6,7 +6,7 @@
 @using FirstBlazorApp.Models
 @inject DialogService _dialogService
 @inject IState<CounterState> _counterState
-@*@inject IState<FruitState> _fruitState*@
+@inject IState<FruitState> _fruitState
 @inject IDispatcher _dispatcher
 @inject NavigationManager _navigationManager
 
@@ -17,22 +17,38 @@
 <p role="status">Current count: @CurrentCount</p>
 <p role="status">Alt Counter: @AltCounter</p>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me4</button>
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 <RadzenButton text="Click me" Click="Confirm"></RadzenButton>
-<RadzenButton text="Create Random Fruit" Click="CreateFruit"></RadzenButton>
-<RadzenButton Text="Create Random Product" Click="AddProduct"></RadzenButton>
+<RadzenButton
+    Disabled="_creating"
+    text="Create Fruit"
+    Click="CreateFruit"
+>
+    
+</RadzenButton>
+<RadzenButton Text="Create Product" Click="AddProduct"></RadzenButton>
 
-@*<p role="status">Fruits: @_fruits.Count()</p>
+@if (!_creating)
+{
+    <p role="status">Fruits: @_fruits.Count()</p>
+}
+else
+{
+    <p role="status">Creating...</p> 
+    <div class="spinner"></div>
+}
+
 <ul>
     @foreach (Fruit fruit in _fruits)
     {
         <li>@fruit.Name</li>
     }
-</ul>*@
+</ul>
 
 @code {
     private int CurrentCount => _counterState.Value.Count;
-    /*private IEnumerable<Fruit> _fruits => _fruitState.Value.Entities.Values;*/
+    private IEnumerable<Fruit> _fruits => _fruitState.Value.Entities.Values;
+    private bool _creating => _fruitState.Value.Creating;
 
     [Parameter]
     [SupplyParameterFromQuery(Name = "alt_counter")]
@@ -64,7 +80,18 @@
         );
     }
 
-    private List<string> _fruitNames = new List<string>() {"Apple", "Pear", "Banana", "Cherry"};
+    private List<string> _fruitNames = new List<string>()
+    {
+        "apple", "apricot", "avocado", "banana", "bell pepper", "bilberry", "blackberry", "blackcurrant", "blood orange",
+        "blueberry", "boysenberry", "breadfruit", "canary melon", "cantaloupe", "cherimoya", "cherry", "chili pepper",
+        "clementine", "cloudberry", "coconut", "cranberry", "cucumber", "currant", "damson", "date", "dragonfruit",
+        "durian", "eggplant", "elderberry", "feijoa", "fig", "goji berry", "gooseberry", "grape", "grapefruit", "guava",
+        "honeydew", "huckleberry", "jackfruit", "jambul", "jujube", "kiwi fruit", "kumquat", "lemon", "lime", "loquat",
+        "lychee", "mandarine", "mango", "mulberry", "nectarine", "nut", "olive", "orange", "papaya", "passionfruit",
+        "peach", "pear", "persimmon", "physalis", "pineapple", "plum", "pomegranate", "pomelo", "purple mangosteen",
+        "quince", "raisin", "rambutan", "raspberry", "redcurrant", "rock melon", "salal berry", "satsuma", "star fruit",
+        "strawberry", "tamarillo", "tangerine", "tomato", "ugli fruit", "watermelon"
+    };
 
     private void CreateFruit()
     {

@@ -1,31 +1,31 @@
 ﻿
 using Fluxor;
 
-namespace FirstBlazorApp.Store;
+namespace FirstBlazorApp.Store.States;
 
-public record EntityState<TKey, TEntity>
+public abstract record EntityState<TKey, TEntity> where TKey : notnull
 {
-    public IDictionary<TKey, TEntity> Entities { get; set; }
+    public IDictionary<TKey, TEntity> Entities { get; init; }
     
-    protected Func<TEntity, TKey>? GetKey { get; set; }
+    public IEnumerable<TKey> Ids { get; init; }
 
-    public EntityState(IDictionary<TKey, TEntity> entities, Func<TEntity, TKey>? getKey)
+    protected abstract TKey GetKey(TEntity entity);
+
+    protected EntityState(IDictionary<TKey, TEntity> entities)
     {
         Entities = entities;
-        GetKey = getKey;
+        Ids = entities.Keys;
     }
 
-    public EntityState(IEnumerable<KeyValuePair<TKey, TEntity>> collection, Func<TEntity, TKey>? getKey, IDictionary<TKey, TEntity> entities)
+    protected EntityState(IEnumerable<TEntity> collection)
     {
-        Entities = entities;
-        GetKey = getKey;
+        IEnumerable<TEntity> enumerable = collection.ToList();
+        Ids = enumerable.Select(GetKey);
+        Entities = enumerable.ToDictionary(GetKey);
     }
 }
 
-public abstract class EntityFeatureState<TKey, TEntity> : Feature<EntityState<TKey, TEntity>>
+public abstract class EntityFeatureState<TKey, TEntity> : Feature<EntityState<TKey, TEntity>> where TKey : notnull
 {
-    protected override EntityState<TKey, TEntity> GetInitialState()
-    {
-        return new EntityState<TKey, TEntity>(new Dictionary<TKey, TEntity>(), null);
-    }
+
 }
