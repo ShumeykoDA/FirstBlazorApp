@@ -2,6 +2,8 @@
 @using FirstBlazorApp.Models
 @inject DialogService _dialogService
 
+<RadzenButton Title="Add counterparty" @bind="CreateCounterparty"></RadzenButton>
+
 <RadzenDataGrid TItem="Counterparty" Data="@counterparties" @ref="_dataGrid" RowSelect="(cp) => _focusedRow = cp ">
     <Columns>
         <RadzenDataGridColumn TItem="Counterparty" Property="Name" Title="Name" TextAlign="TextAlign.Left">
@@ -111,6 +113,11 @@
                 await _dataGrid.Reload();
             }
         }
+    }
+
+    private void CreateCounterparty(EventArgs args)
+    {
+        
     }
 
 }

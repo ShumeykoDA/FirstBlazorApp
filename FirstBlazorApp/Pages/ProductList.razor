@@ -2,61 +2,46 @@
 @using FirstBlazorApp.Models;
 @using FirstBlazorApp.Store.Actions
 @using FirstBlazorApp.Store.Products.Actions
+@using FirstBlazorApp.Store.Products.Services
 @using FirstBlazorApp.Store.Products.States
 @using FirstBlazorApp.Store.States
 @using Fluxor
 @inject IDispatcher _dispatcher
 @inject IState<ProductState> _productState
+@inject ProductService _productService
 
 <button
-    disabled="@_creating"
+    disabled="@Creating"
     class="btn btn-primary"
     @onclick="CreateRandomProductButton"
 >
     Create Random Product
 </button>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Product</th>
-            <th>Stock</th>
-            <th>Actions</th>
-            <th>Price (&#8381;)</th>
-        </tr>
-    </thead>
-    <tbody>
-        @{int idx = 0;}
-        @foreach (Product product in Products)
-        {
-            idx++;
-            <tr @onmouseover="@(e => FocusProduct(@product))" @onmouseout="@(e => UnfocusProduct())">
-                <td>@idx</td>
-                <td>@product.Name</td>
-                <td>@product.Stock&nbsp;@if(@product.Unit != ""){<span>@product.Unit</span>}</td>
-                <td>
-                    @if(FocusedProduct == product) {
-                        <button class="btn btn-primary btn-sm" @onclick="@(e => AddToStock(@product))">+</button>
-                        <button class="btn btn-primary btn-sm" @onclick="@(e => RemoveFromStock(@product))">-</button>
-                    }
-                </td>
-                <td>@product.Price &#8381;</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<button class="btn btn-primary">Click Me</button>
+~{@_a}~
+
+<RadzenDataGrid TItem="Product" Data="Products" @ref="_dataGrid" RowSelect="p => _selected = p ">
+    <Columns>
+        <RadzenDataGridColumn TItem="Product" Property="Name" Title="Name"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Product" Property="Price" Title="Price"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Product" Property="Stock" Title="Stock"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Product" Property="Unit" Title="Unit"></RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
 
 @code {
 
-    private List<Product> Products => _productState.Value.Ids
-        .Select(id => _productState.Value.Entities[id])
-        .ToList();
-
-    private bool _creating => _productState.Value.Creating;
-
-    private Product? FocusedProduct;
+    private RadzenDataGrid<Product>? _dataGrid;
+    private Product? _selected;
+    private bool _a => _productState.Value.Creating;
     
+    private IEnumerable<Product> Products => _productService.Products;
+    private bool Creating => _productService.Creating;
+    private bool Deleting => _productService.Deleting;
+    private bool Updating => _productService.Updating;
+    private bool Loading  => _productService.Loading;
+
     private List<string> _fruitNames = new List<string>()
     {
         "apple", "apricot", "avocado", "banana", "bell pepper", "bilberry", "blackberry", "blackcurrant", "blood orange",
@@ -80,16 +65,6 @@
         } else {
             product.Stock = 0;
         }
-    }
-
-    private void FocusProduct(Product product) {
-        if (FocusedProduct != product) {
-            FocusedProduct = product;
-        }
-    }
-
-    private void UnfocusProduct() {
-        FocusedProduct = null;
     }
 
     private void CreateRandomProductButton(EventArgs eventArgs)

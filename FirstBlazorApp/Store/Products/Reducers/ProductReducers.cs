@@ -36,4 +36,41 @@ public static class ProductReducers
             Creating = false
         };
     }
+
+    [ReducerMethod]
+    public static ProductState DeleteProductReducer(ProductState state, DeleteProduct action)
+    {
+        return state with
+        {
+            Deleting = true,
+            Entities = new Dictionary<Guid, Product>(
+                state.Entities.Values.Where(product => product.Id != action.Payload.Id)
+                    .Select(product => new KeyValuePair<Guid, Product>(product.Id, product) )
+            ),
+            Ids = new List<Guid>(state.Ids.Where(id => id != action.Payload.Id))
+        };
+    }
+
+
+    [ReducerMethod]
+    public static ProductState DeleteProductSuccessReducer(ProductState state, DeleteProductSuccess action)
+    {
+        return state with
+        {
+            Deleting = false
+        };
+    }
+
+    [ReducerMethod]
+    public static ProductState DeleteProductFailedReducer(ProductState state, DeleteProductFailed action)
+    {
+        return state with
+        {
+            Deleting = false
+        };
+    }
+    
+    
+    
+    
 }
