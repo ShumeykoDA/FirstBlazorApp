@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Radzen;
 using FirstBlazorApp;
 using FirstBlazorApp.Services;
+using FirstBlazorApp.Store.Fruits.Services;
 using Fluxor;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -24,5 +25,7 @@ builder.Services.AddFluxor(config =>
     config.ScanAssemblies(typeof(Program).Assembly)
           .UseReduxDevTools();
 });
+
+builder.Services.AddScoped<FruitService>();
 
 await builder.Build().RunAsync();

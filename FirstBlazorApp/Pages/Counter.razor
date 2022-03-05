@@ -4,11 +4,13 @@
 @using FirstBlazorApp.Store
 @using FirstBlazorApp.Store.Actions
 @using FirstBlazorApp.Models
+@using FirstBlazorApp.Store.Fruits.Services
 @using FirstBlazorApp.Store.Products.Actions
 @using FirstBlazorApp.Store.States
 @inject DialogService _dialogService
 @inject IState<CounterState> _counterState
 @inject IState<FruitState> _fruitState
+@inject FruitService _fruitService
 @inject IDispatcher _dispatcher
 @inject NavigationManager _navigationManager
 
@@ -19,15 +21,8 @@
 <p role="status">Current count: @CurrentCount</p>
 <p role="status">Alt Counter: @AltCounter</p>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 <RadzenButton text="Click me" Click="Confirm"></RadzenButton>
-<RadzenButton
-    Disabled="_creating"
-    text="Create Fruit"
-    Click="CreateFruit"
->
-    
-</RadzenButton>
+<RadzenButton Disabled="_creating" text="Create Fruit" Click="CreateFruit"></RadzenButton>
 <RadzenButton Text="Create Product" Click="AddProduct"></RadzenButton>
 
 @if (!_creating)
@@ -49,12 +44,16 @@ else
 
 @code {
     private int CurrentCount => _counterState.Value.Count;
-    private IEnumerable<Fruit> _fruits => _fruitState.Value.Entities.Values;
-    private bool _creating => _fruitState.Value.Creating;
+    private IEnumerable<Fruit> _fruits => _fruitService.Fruits;
+    private bool _creating => _fruitService.Creating;
+    private bool _loading => _fruitService.Loading;
+    private bool _deleting => _fruitService.Deleting;
+    private bool _updating => _fruitService.Updating;
 
     [Parameter]
     [SupplyParameterFromQuery(Name = "alt_counter")]
     public int AltCounter { get; set; }
+    
 
     private void UpdateUri()
     {
@@ -97,10 +96,10 @@ else
 
     private void CreateFruit()
     {
-        _dispatcher.Dispatch(new AddFruit(new Fruit(
+        _fruitService.AddFruit(new Fruit(
             Guid.NewGuid(), 
             _fruitNames[new Random().Next(0, _fruitNames.Count - 1)]
-        )));
+        ));
     }
 
     private void AddProduct()
