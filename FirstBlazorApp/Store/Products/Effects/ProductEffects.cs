@@ -14,8 +14,8 @@ public class ProductEffects
         Client = httpClient;
     }
     
-    [EffectMethod(typeof(CreateProduct))]
-    public async Task WhenCreateProduct(IDispatcher dispatcher)
+    [EffectMethod]
+    public async Task WhenCreateProduct(CreateProduct action, IDispatcher dispatcher)
     {
         Console.WriteLine("<Create Product Success>");
         HttpResponseMessage response = await Client?.GetAsync("https://localhost:7258/")!;

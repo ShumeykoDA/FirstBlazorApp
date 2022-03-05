@@ -10,8 +10,8 @@ public class FruitEffects
         
     }
     
-    [EffectMethod(typeof(AddFruit))]
-    public async Task AddFruit(IDispatcher dispatcher)
+    [EffectMethod]
+    public async Task AddFruit(AddFruit action, IDispatcher dispatcher)
     {
         await Task.Delay(500);
         dispatcher.Dispatch(new AddFruitSuccess());

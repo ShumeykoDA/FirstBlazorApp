@@ -2,7 +2,8 @@
 @using FirstBlazorApp.Models
 @inject DialogService _dialogService
 
-<RadzenButton Title="Add counterparty" @bind="CreateCounterparty"></RadzenButton>
+
+<RadzenButton Title="Add counterparty" Click="CreateCounterparty"></RadzenButton>
 
 <RadzenDataGrid TItem="Counterparty" Data="@counterparties" @ref="_dataGrid" RowSelect="(cp) => _focusedRow = cp ">
     <Columns>

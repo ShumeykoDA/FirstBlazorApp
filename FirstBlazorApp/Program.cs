@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Radzen;
 using FirstBlazorApp;
 using FirstBlazorApp.Services;
+using FirstBlazorApp.Store.Counter.Services;
 using FirstBlazorApp.Store.Fruits.Services;
 using FirstBlazorApp.Store.Products.Services;
 using Fluxor;
@@ -29,5 +30,6 @@ builder.Services.AddFluxor(config =>
 
 builder.Services.AddScoped<FruitService>();
 builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<CounterService>();
 
 await builder.Build().RunAsync();

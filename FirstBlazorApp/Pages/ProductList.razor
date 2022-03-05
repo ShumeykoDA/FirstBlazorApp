@@ -10,16 +10,14 @@
 @inject IState<ProductState> _productState
 @inject ProductService _productService
 
-<button
-    disabled="@Creating"
+<RadzenButton Disabled="Creating"
     class="btn btn-primary"
-    @onclick="CreateRandomProductButton"
+    Click="CreateRandomProductButton"
 >
     Create Random Product
-</button>
+</RadzenButton> <p>Product Count: @Products.Count()</p>
 
 <button class="btn btn-primary">Click Me</button>
-~{@_a}~
 
 <RadzenDataGrid TItem="Product" Data="Products" @ref="_dataGrid" RowSelect="p => _selected = p ">
     <Columns>
@@ -34,8 +32,7 @@
 
     private RadzenDataGrid<Product>? _dataGrid;
     private Product? _selected;
-    private bool _a => _productState.Value.Creating;
-    
+
     private IEnumerable<Product> Products => _productService.Products;
     private bool Creating => _productService.Creating;
     private bool Deleting => _productService.Deleting;

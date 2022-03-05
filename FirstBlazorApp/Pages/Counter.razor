@@ -22,12 +22,12 @@
 <p role="status">Alt Counter: @AltCounter</p>
 
 <RadzenButton text="Click me" Click="Confirm"></RadzenButton>
-<RadzenButton Disabled="_creating" text="Create Fruit" Click="CreateFruit"></RadzenButton>
+<RadzenButton Disabled="Creating" text="Create Fruit" Click="CreateFruit"></RadzenButton>
 <RadzenButton Text="Create Product" Click="AddProduct"></RadzenButton>
 
-@if (!_creating)
+@if (!Creating)
 {
-    <p role="status">Fruits: @_fruits.Count()</p>
+    <p role="status">Fruits: @Fruits.Count()</p>
 }
 else
 {
@@ -36,7 +36,7 @@ else
 }
 
 <ul>
-    @foreach (Fruit fruit in _fruits)
+    @foreach (Fruit fruit in Fruits)
     {
         <li>@fruit.Name</li>
     }
@@ -44,11 +44,11 @@ else
 
 @code {
     private int CurrentCount => _counterState.Value.Count;
-    private IEnumerable<Fruit> _fruits => _fruitService.Fruits;
-    private bool _creating => _fruitService.Creating;
-    private bool _loading => _fruitService.Loading;
-    private bool _deleting => _fruitService.Deleting;
-    private bool _updating => _fruitService.Updating;
+    private IEnumerable<Fruit> Fruits => _fruitService.Fruits;
+    private bool Creating => _fruitService.Creating;
+    private bool Loading => _fruitService.Loading;
+    private bool Deleting => _fruitService.Deleting;
+    private bool Updating => _fruitService.Updating;
 
     [Parameter]
     [SupplyParameterFromQuery(Name = "alt_counter")]
@@ -57,19 +57,19 @@ else
 
     private void UpdateUri()
     {
-        _navigationManager.NavigateTo(_navigationManager.GetUriWithQueryParameters(
+        /*_navigationManager.NavigateTo(_navigationManager.GetUriWithQueryParameters(
             new Dictionary<string, object?>()
             {
                 ["alt_counter"] = AltCounter
             }
-        ));
+        ));*/
     }
 
     private void IncrementCount()
     {
-        AltCounter = AltCounter + 1;
+        /*AltCounter = AltCounter + 1;
         _dispatcher.Dispatch(new AddCounter(7));
-        UpdateUri();
+        UpdateUri();*/
     }
 
     private void Confirm()
@@ -81,21 +81,20 @@ else
         );
     }
 
-    private List<string> _fruitNames = new List<string>()
-    {
-        "apple", "apricot", "avocado", "banana", "bell pepper", "bilberry", "blackberry", "blackcurrant", "blood orange",
-        "blueberry", "boysenberry", "breadfruit", "canary melon", "cantaloupe", "cherimoya", "cherry", "chili pepper",
-        "clementine", "cloudberry", "coconut", "cranberry", "cucumber", "currant", "damson", "date", "dragonfruit",
-        "durian", "eggplant", "elderberry", "feijoa", "fig", "goji berry", "gooseberry", "grape", "grapefruit", "guava",
-        "honeydew", "huckleberry", "jackfruit", "jambul", "jujube", "kiwi fruit", "kumquat", "lemon", "lime", "loquat",
-        "lychee", "mandarine", "mango", "mulberry", "nectarine", "nut", "olive", "orange", "papaya", "passionfruit",
-        "peach", "pear", "persimmon", "physalis", "pineapple", "plum", "pomegranate", "pomelo", "purple mangosteen",
-        "quince", "raisin", "rambutan", "raspberry", "redcurrant", "rock melon", "salal berry", "satsuma", "star fruit",
-        "strawberry", "tamarillo", "tangerine", "tomato", "ugli fruit", "watermelon"
-    };
-
     private void CreateFruit()
     {
+        List<string> _fruitNames = new List<string>()
+        {
+            "apple", "apricot", "avocado", "banana", "bell pepper", "bilberry", "blackberry", "blackcurrant", "blood orange",
+            "blueberry", "boysenberry", "breadfruit", "canary melon", "cantaloupe", "cherimoya", "cherry", "chili pepper",
+            "clementine", "cloudberry", "coconut", "cranberry", "cucumber", "currant", "damson", "date", "dragonfruit",
+            "durian", "eggplant", "elderberry", "feijoa", "fig", "goji berry", "gooseberry", "grape", "grapefruit", "guava",
+            "honeydew", "huckleberry", "jackfruit", "jambul", "jujube", "kiwi fruit", "kumquat", "lemon", "lime", "loquat",
+            "lychee", "mandarine", "mango", "mulberry", "nectarine", "nut", "olive", "orange", "papaya", "passionfruit",
+            "peach", "pear", "persimmon", "physalis", "pineapple", "plum", "pomegranate", "pomelo", "purple mangosteen",
+            "quince", "raisin", "rambutan", "raspberry", "redcurrant", "rock melon", "salal berry", "satsuma", "star fruit",
+            "strawberry", "tamarillo", "tangerine", "tomato", "ugli fruit", "watermelon"
+        };
         _fruitService.AddFruit(new Fruit(
             Guid.NewGuid(), 
             _fruitNames[new Random().Next(0, _fruitNames.Count - 1)]
@@ -104,12 +103,13 @@ else
 
     private void AddProduct()
     {
-        Product product = new Product(
+
+        /*Product product = new Product(
             Guid.NewGuid(),
             _fruitNames[new Random().Next(0, _fruitNames.Count - 1)],
             (decimal) new Random().Next(0, 100) / 10
         );
-        _dispatcher.Dispatch(new CreateProduct(product));
+        _dispatcher.Dispatch(new CreateProduct(product));*/
     }
 
 }

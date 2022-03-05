@@ -24,7 +24,6 @@ public class FruitService
     {
         Dispatcher = dispatcher;
         State = state;
-
     }
 
     public void AddFruit(Fruit fruit)
