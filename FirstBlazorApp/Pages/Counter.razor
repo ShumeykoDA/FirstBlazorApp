@@ -22,7 +22,7 @@
 <p role="status">Alt Counter: @AltCounter</p>
 
 <RadzenButton text="Click me" Click="Confirm"></RadzenButton>
-<RadzenButton Disabled="Creating" text="Create Fruit" Click="CreateFruit"></RadzenButton>
+<RadzenButton Disabled="_fruitState.Value.Creating" text="Create Fruit" Click="CreateFruit"></RadzenButton>
 <RadzenButton Text="Create Product" Click="AddProduct"></RadzenButton>
 
 @if (!Creating)

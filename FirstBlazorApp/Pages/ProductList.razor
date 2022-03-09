@@ -1,13 +1,15 @@
 @page "/products"
+@using System.Linq.Dynamic.Core
+@using Fluxor
 @using FirstBlazorApp.Models;
 @using FirstBlazorApp.Store.Actions
 @using FirstBlazorApp.Store.Products.Actions
 @using FirstBlazorApp.Store.Products.Services
 @using FirstBlazorApp.Store.Products.States
 @using FirstBlazorApp.Store.States
-@using Fluxor
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
 @inject IDispatcher _dispatcher
-@inject IState<ProductState> _productState
 @inject ProductService _productService
 
 <RadzenButton Disabled="Creating"
@@ -15,16 +17,35 @@
     Click="CreateRandomProductButton"
 >
     Create Random Product
-</RadzenButton> <p>Product Count: @Products.Count()</p>
+</RadzenButton> 
+<RadzenButton Disabled="Creating || Loading"
+    class="btn btn-primary"
+    Click="RandomizeExample"          
+>
+    Randomize Example
+</RadzenButton>
 
-<button class="btn btn-primary">Click Me</button>
-
-<RadzenDataGrid TItem="Product" Data="Products" @ref="_dataGrid" RowSelect="p => _selected = p ">
+<RadzenDataGrid TItem="Product" 
+    Data="Products"
+    @ref="_dataGrid" RowSelect="p => _selected = p"
+    AllowVirtualization="true" AllowFiltering="true" AllowSorting="true"
+    Style="height:300px"
+    IsLoading="Loading"
+>
     <Columns>
         <RadzenDataGridColumn TItem="Product" Property="Name" Title="Name"></RadzenDataGridColumn>
         <RadzenDataGridColumn TItem="Product" Property="Price" Title="Price"></RadzenDataGridColumn>
         <RadzenDataGridColumn TItem="Product" Property="Stock" Title="Stock"></RadzenDataGridColumn>
         <RadzenDataGridColumn TItem="Product" Property="Unit" Title="Unit"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Product" Title="Actions">
+            <Template Context="product">
+                <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" class="m-1"
+                    Click="@(args => ClickDeleteButton(product))"
+                    @onclick:stopPropagation="true"      
+                >
+                </RadzenButton>
+            </Template>
+        </RadzenDataGridColumn>
     </Columns>
 </RadzenDataGrid>
 
@@ -32,8 +53,10 @@
 
     private RadzenDataGrid<Product>? _dataGrid;
     private Product? _selected;
-
+    
     private IEnumerable<Product> Products => _productService.Products;
+    private IEnumerable<Product> _query = null;
+    private int _count = 0;
     private bool Creating => _productService.Creating;
     private bool Deleting => _productService.Deleting;
     private bool Updating => _productService.Updating;
@@ -69,9 +92,37 @@
         Product product = new Product(
             Guid.NewGuid(),
             _fruitNames[new Random().Next(0, _fruitNames.Count - 1)],
-            (decimal) (new Random().Next(1, 100) / 10),
-            (decimal) (new Random().Next(1, 100) / 10)
+            (decimal) ((float) new Random().Next(1, 100) / 10),
+            (decimal) ((float) new Random().Next(1, 100) / 10)
         );
         _dispatcher.Dispatch(new CreateProduct(product));
     }
+
+    private void RandomizeExample()
+    {
+        _productService.RandomizeExample();
+    }
+
+    private void ClickDeleteButton(Product product)
+    {
+        _productService.DeleteProduct(product);
+    }
+
+    private void LoadData(LoadDataArgs args)
+    {
+        Console.WriteLine("LoadData End...");
+        Console.WriteLine("LoadData Begin...");
+        Console.WriteLine($"Skip: {args.Skip ?? 0}");
+        Console.WriteLine($"Top: {args.Top ?? 16}");
+        _query = Products
+            .Skip(args.Skip ?? 0)
+            .Take(args.Top ?? 16)
+            .ToList();
+        _count = Products.Count();
+        Console.WriteLine($"_query={_query.Count()}");
+        Console.WriteLine($"Products Count: {_count}");
+        Console.WriteLine("LoadData End...");
+        /**/
+    }
+    
 }

@@ -17,19 +17,20 @@ public class ProductEffects
     [EffectMethod]
     public async Task WhenCreateProduct(CreateProduct action, IDispatcher dispatcher)
     {
-        Console.WriteLine("<Create Product Success>");
-        HttpResponseMessage response = await Client?.GetAsync("https://localhost:7258/")!;
-        response.EnsureSuccessStatusCode();
-        string body = await response.Content.ReadAsStringAsync();
         dispatcher.Dispatch(new CreateProductSuccess());
-        Console.WriteLine(body);
-        Console.WriteLine("</Create Product Success>");
     }
 
     [EffectMethod]
     public async Task WhenDeleteProduct(DeleteProduct action, IDispatcher dispatcher)
     {
         dispatcher.Dispatch(new DeleteProductSuccess(action.Payload));
+    }
+
+    [EffectMethod]
+    public async Task WhenRandomizeExample(RandomizeExample action, IDispatcher dispatcher)
+    {
+        Console.WriteLine("WhenRandomizeExample...");
+        dispatcher.Dispatch(new RandomizeExampleSuccess());
     }
 
 }

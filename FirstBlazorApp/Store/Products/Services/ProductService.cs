@@ -7,6 +7,8 @@ namespace FirstBlazorApp.Store.Products.Services;
 
 public class ProductService
 {
+    
+    
     private IDispatcher Dispatcher { get; init; }
     private IState<ProductState> State { get; init; }
 
@@ -34,5 +36,10 @@ public class ProductService
     public void DeleteProduct(Product product)
     {
         Dispatcher.Dispatch(new DeleteProduct(product));
+    }
+
+    public void RandomizeExample()
+    {
+        Dispatcher.Dispatch(new RandomizeExample());
     }
 }
