@@ -15,4 +15,8 @@
         <PackageReference Include="Radzen.Blazor" Version="3.16.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\FirstBlazorApp.Data\FirstBlazorApp.Data.csproj" />
+    </ItemGroup>
+
 </Project>
