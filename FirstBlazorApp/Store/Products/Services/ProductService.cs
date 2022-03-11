@@ -1,4 +1,4 @@
-﻿using FirstBlazorApp.Models;
+﻿using FirstBlazorApp.Data.Models;
 using FirstBlazorApp.Store.Products.Actions;
 using FirstBlazorApp.Store.Products.States;
 using Fluxor;

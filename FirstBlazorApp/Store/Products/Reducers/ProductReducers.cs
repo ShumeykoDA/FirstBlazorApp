@@ -1,4 +1,6 @@
-﻿using FirstBlazorApp.Models;
+﻿using System.Collections.ObjectModel;
+using FirstBlazorApp.Data.Interfaces;
+using FirstBlazorApp.Data.Models;
 using FirstBlazorApp.Store.Products.Actions;
 using FirstBlazorApp.Store.Products.States;
 using Fluxor;
@@ -89,14 +91,18 @@ public static class ProductReducers
         IDictionary<Guid, Product> entities = new Dictionary<Guid, Product>(state.Entities);
         for (int i = 0; i < 25; i++)
         {
-            Guid id = Guid.NewGuid();
-            ids.Add(id);
-            entities.Add(id, new Product(
-                id,
-                names[new Random().Next(0, names.Count - 1)],
-                (decimal) ((float) new Random().Next(1, 100) / 10),
-                (decimal) ((float) new Random().Next(1, 100) / 10)
-            ));
+            Product product = new Product(
+                Guid.NewGuid(),
+                names[new Random().Next(0, names.Count - 1)]
+            )
+            {
+                Price = (decimal) ((float) new Random().Next(1, 100) / 10),
+                Stock = (decimal) ((float) new Random().Next(1, 100) / 10),
+                Unit = "kg",
+                Tags = new Collection<Tag>()
+            };
+            ids.Add(product.Id);
+            entities.Add(product.Id, product);
         }
         return state with
         {

@@ -1,4 +1,4 @@
-﻿using FirstBlazorApp.Models;
+﻿using FirstBlazorApp.Data.Models;
 
 namespace FirstBlazorApp.Store.Products.Actions;
 

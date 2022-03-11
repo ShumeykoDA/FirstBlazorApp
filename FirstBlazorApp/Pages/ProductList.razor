@@ -1,11 +1,13 @@
 @page "/products"
 @using System.Linq.Dynamic.Core
 @using Fluxor
-@using FirstBlazorApp.Models;
 @using FirstBlazorApp.Store.Products.Actions
 @using FirstBlazorApp.Store.Products.Services
 @using FirstBlazorApp.Store.Products.States
 @using FirstBlazorApp.Store.States
+@using System.Collections.ObjectModel
+@using FirstBlazorApp.Data.Interfaces
+@using FirstBlazorApp.Data.Models
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
 @inject IDispatcher _dispatcher
@@ -90,10 +92,14 @@
     {
         Product product = new Product(
             Guid.NewGuid(),
-            _fruitNames[new Random().Next(0, _fruitNames.Count - 1)],
-            (decimal) ((float) new Random().Next(1, 100) / 10),
-            (decimal) ((float) new Random().Next(1, 100) / 10)
-        );
+            _fruitNames[new Random().Next(0, _fruitNames.Count - 1)]
+        )
+        {
+            Price = (decimal) ((float) new Random().Next(1, 100) / 10),
+            Stock = (decimal) ((float) new Random().Next(1, 100) / 10),
+            Unit = "kg",
+            Tags = new Collection<Tag>()
+        };
         _dispatcher.Dispatch(new CreateProduct(product));
     }
 

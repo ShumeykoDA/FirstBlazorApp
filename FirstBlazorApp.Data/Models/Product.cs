@@ -1,24 +1,24 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using FirstBlazorApp.Data.Interfaces;
 
-namespace FirstBlazorApp.Models
+namespace FirstBlazorApp.Data.Models
 {
-    public class Product
+    public class Product: IEntity
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
         public decimal Stock { get; set; }
         public string Unit { get; set; }
+        public Collection<Tag> Tags { get; set; }
 
-        public Product(Guid id, string name, decimal price, decimal stock = 0m, string unit = "kg") {
+        public Product(Guid id, string name) {
             Id = id;
             Name = name;
-            Price = price;
-            Stock = stock;
-            Unit = unit;
+            Price = 0.00m;
+            Stock = 0m;
+            Unit = "kg";
+            Tags = new Collection<Tag>();
         }
     }
 }
