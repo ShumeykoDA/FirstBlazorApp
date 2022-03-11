@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace FirstBlazorServerApp.Controllers;
+namespace FirstBlazorApp.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]

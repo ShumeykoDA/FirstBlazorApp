@@ -1,4 +1,4 @@
-namespace FirstBlazorServerApp;
+namespace FirstBlazorApp.Api;
 
 public class WeatherForecast
 {

@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirstBlazorApp", "FirstBlazorApp\FirstBlazorApp.csproj", "{1FC4AC59-264F-4F37-B49B-B8BF7FB06A33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirstBlazorServerApp", "FirstBlazorServerApp\FirstBlazorServerApp.csproj", "{F2508A53-60E8-4BE4-B00C-044218D37EFE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirstBlazorApp.Api", "FirstBlazorApp.Api\FirstBlazorApp.Api.csproj", "{F2508A53-60E8-4BE4-B00C-044218D37EFE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirstBlazorApp.Data", "FirstBlazorApp.Data\FirstBlazorApp.Data.csproj", "{21814BD0-31CF-450F-91F4-A0494B4FCF44}"
 EndProject
