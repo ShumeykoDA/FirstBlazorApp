@@ -3,7 +3,7 @@
 @inject DialogService _dialogService
 
 
-<RadzenButton Title="Add counterparty" Click="CreateCounterparty"></RadzenButton>
+<RadzenButton Title="Add counterparty" Click="CreateCounterparty">Create Counterparty (ToDo)</RadzenButton>
 
 <RadzenDataGrid TItem="Counterparty" Data="@counterparties" @ref="_dataGrid" RowSelect="(cp) => _focusedRow = cp ">
     <Columns>
