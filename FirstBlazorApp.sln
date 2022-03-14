@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirstBlazorApp.Api", "First
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirstBlazorApp.Data", "FirstBlazorApp.Data\FirstBlazorApp.Data.csproj", "{21814BD0-31CF-450F-91F4-A0494B4FCF44}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirstBlazorApp.Shared", "FirstBlazorApp.Shared\FirstBlazorApp.Shared.csproj", "{F381149D-BD54-49F7-B183-7A9A0DC98EB2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{21814BD0-31CF-450F-91F4-A0494B4FCF44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21814BD0-31CF-450F-91F4-A0494B4FCF44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21814BD0-31CF-450F-91F4-A0494B4FCF44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F381149D-BD54-49F7-B183-7A9A0DC98EB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F381149D-BD54-49F7-B183-7A9A0DC98EB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F381149D-BD54-49F7-B183-7A9A0DC98EB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F381149D-BD54-49F7-B183-7A9A0DC98EB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

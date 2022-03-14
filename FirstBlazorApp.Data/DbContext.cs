@@ -20,8 +20,10 @@ public class FirstBlazorAppDbContextFactory : IDesignTimeDbContextFactory<FirstB
 {
     public FirstBlazorAppDbContext CreateDbContext(string[] args)
     {
-        var builder = new DbContextOptionsBuilder<FirstBlazorAppDbContext>();
-        builder.UseNpgsql("Server=localhost;Port=5441;User Id=postgres;Password=123456;Database=first-blazor-app-db;");
+        DbContextOptionsBuilder<FirstBlazorAppDbContext> builder = new DbContextOptionsBuilder<FirstBlazorAppDbContext>();
+        string connectionString =
+            "Server=localhost;Port=5441;User Id=postgres;Password=123456;Database=first-blazor-app-db;";
+        builder.UseNpgsql(connectionString);
         return new FirstBlazorAppDbContext(builder.Options);
     }
 }
